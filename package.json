@@ -9,7 +9,7 @@
     "build": "webpack --mode production",
     "start": "yarn build && node server/main.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-    "server": "nodemon server/index.js",
+    "server": "nodemon server/main.js",
     "dev": "concurrently \"yarn server\" \"yarn client\""
   },
   "dependencies": {

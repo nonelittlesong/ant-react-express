@@ -18,6 +18,9 @@ server.listen(port, (err) => {
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
+// routers
+app.use('/demo', require('./routers/demo'));
+
 // -------------------- SocketIO ---------------------
 io.on('connection', (socket) => {
   console.info(`Client socket ${socket.id} is connecting...`);
