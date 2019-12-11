@@ -21,28 +21,33 @@ class UploadForm extends Component {
     });
   }
 
-  fileRemove = (file) => {
-    thi;
-  }
-
   render() {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     return (
-      <div>Upload</div>
+      <Form onSubmit={this.handleSubmit} className="upload-form">
+        <Form.Item>
+          {getFieldDecorator('imgs', {
+
+          })()}
+        </Form.Item>
+      </Form>
     );
   }
 }
 
-const { add_img } = FormActions;
+const { addImg } = FormActions;
 
 const mapStateToProps = (state) => ({
+  imgList: state.imgList,
+  imgNum: state.imgNum
+});
 
-  });
-
-function mapDispatchToProps(dispatch) {
-  return {
-
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  add_img: (imgs, num) => {
+    dispatch(addImg(imgs, num));
+  }
+});
 
 const WrappedDemo = Form.create({ name: 'upload_demo' })(UploadForm);
 
