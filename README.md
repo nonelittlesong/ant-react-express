@@ -11,3 +11,9 @@
 依赖：  
 
 - [mysql2](https://github.com/sidorares/node-mysql2#readme)
+
+## Troubleshot
+
+### CleanWebpackPlugin is not a Constructor
+
+新版的引用方式已改成 `const { CleanWebpackPlugin } = require('clean-webpack-plugin')`。  

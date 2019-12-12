@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'antd';
-import { connect } from 'redux';
+import { Form, Upload, Button } from 'antd';
+import { connect } from 'react-redux';
 import { actions as FormActions } from '../../reducers/formReducer';
 
 class UploadForm extends Component {
@@ -27,9 +28,20 @@ class UploadForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit} className="upload-form">
         <Form.Item>
-          {getFieldDecorator('imgs', {
-
-          })()}
+          {getFieldDecorator('upload', {
+            valuePropName: 'fileList'
+          })(
+            <Upload
+              action=""
+              beforeUpload={
+                () => false
+              }
+            >
+              <Button>
+                Select Images
+              </Button>
+            </Upload>
+          )}
         </Form.Item>
       </Form>
     );
@@ -49,6 +61,13 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-const WrappedDemo = Form.create({ name: 'upload_demo' })(UploadForm);
+const WrappedDemo = Form.create({
+  name: 'upload_demo',
+  mapPropsToFields(props) {
+    return {
+      upload: props.imgList
+    };
+  }
+})(UploadForm);
 
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedDemo);
