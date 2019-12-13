@@ -13,7 +13,7 @@ export function* addImages(imgs, imgNum) {
 
 export function* addImagesFlow() {
   while (true) {
-    const request = yield take(FormActionTypes.ADD_IMG);
+    const request = yield take(FormActionTypes.UPLOAD_IMG);
     console.log(request);
     // const response = yield call(addImages, request.imgs, request.imgNum);
   }

@@ -1,33 +1,29 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router, Route, Switch, Link
 } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import UploadForm from './uploadimagedemo/UploadForm';
+import { actions } from '../reducers';
 
 const { Header, Sider, Content } = Layout;
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collapsed: true
-    };
+class App extends Component {
+  handleClick = () => {
+    const { collapsed, toggle } = this.props;
+    toggle(collapsed);
   }
 
-  toggle = () => {
-    const { collapsed } = this.state;
-    this.setState({
-      collapsed: !collapsed
-    });
-  };
-
   render() {
+    const { collapsed } = this.props;
     return (
       <Router basename="/">
         <Layout>
-          <Sider theme="light" trigger={null} collapsible collapsed={this.state.collapsed}>
+          <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
             <div className="logo" />
             <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
@@ -48,8 +44,8 @@ export default class App extends Component {
             <Header style={{ background: '#fff', padding: 0 }}>
               <Icon
                 className="trigger"
-                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                onClick={this.toggle}
+                type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                onClick={this.handleClick}
               />
             </Header>
             <Content
@@ -72,3 +68,18 @@ export default class App extends Component {
     );
   }
 }
+
+const { toggle } = actions;
+
+const mapStateToProps = (state) => ({
+  collapsed: state.index.collapsed
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  toggle: bindActionCreators(toggle, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

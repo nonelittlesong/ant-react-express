@@ -35,6 +35,7 @@ export function reducer(state = initialState, action) {
         imgNum: action.data.imgNum
       };
     case actionTypes.ADD_IMG:
+      console.log('ADD_IMG', action);
       return {
         ...state,
         imgList: [...state.imgList, ...action.imgs],

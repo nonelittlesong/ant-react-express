@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -25,32 +26,36 @@ class UploadForm extends Component {
   render() {
     const { form } = this.props;
     const { getFieldDecorator } = form;
+    const { imgList } = this.props;
     return (
-      <Form onSubmit={this.handleSubmit} className="upload-form">
-        <Form.Item>
-          {getFieldDecorator('upload', {
-            valuePropName: 'fileList',
-            getValueFromEvent: (e) => {
-              console.log('Upload event: ', e);
-              if (Array.isArray(e)) {
-                return e;
+      <div>
+        <Form onSubmit={this.handleSubmit} className="upload-form">
+          <Form.Item>
+            {getFieldDecorator('upload', {
+              valuePropName: 'fileList',
+              getValueFromEvent: (e) => {
+                console.log('Upload event', e);
+                if (Array.isArray(e)) {
+                  return e;
+                }
+                return e && e.fileList;
               }
-              return e && e.fileList;
-            }
-          })(
-            <Upload
-              action=""
-              beforeUpload={
-                () => false
-              }
-            >
-              <Button>
-                Select Images
-              </Button>
-            </Upload>
-          )}
-        </Form.Item>
-      </Form>
+            })(
+              <Upload
+                action=""
+                beforeUpload={
+                  () => false
+                }
+              >
+                <Button>
+                  Select Images
+                </Button>
+              </Upload>
+            )}
+          </Form.Item>
+        </Form>
+        <pre>{JSON.stringify(imgList, null, 2)}</pre>
+      </div>
     );
   }
 }
@@ -58,8 +63,8 @@ class UploadForm extends Component {
 const { addImg } = FormActions;
 
 const mapStateToProps = (state) => ({
-  imgList: state.imgList,
-  imgNum: state.imgNum
+  imgList: state.form.imgList,
+  imgNum: state.form.imgNum
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -71,9 +76,16 @@ const mapDispatchToProps = (dispatch) => ({
 const WrappedDemo = Form.create({
   name: 'upload_demo',
   mapPropsToFields(props) {
+    console.log('mapPropsToFields', props);
     return {
-      upload: props.imgList
+      upload: Form.createFormField({
+        value: props.imgList
+      })
     };
+  },
+  onFieldsChange(props, fields) {
+    console.log('onFieldsChange', fields);
+    props.add_img(fields.upload.value, 3);
   }
 })(UploadForm);
 
