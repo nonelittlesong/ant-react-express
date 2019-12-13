@@ -29,7 +29,14 @@ class UploadForm extends Component {
       <Form onSubmit={this.handleSubmit} className="upload-form">
         <Form.Item>
           {getFieldDecorator('upload', {
-            valuePropName: 'fileList'
+            valuePropName: 'fileList',
+            getValueFromEvent: (e) => {
+              console.log('Upload event: ', e);
+              if (Array.isArray(e)) {
+                return e;
+              }
+              return e && e.fileList;
+            }
           })(
             <Upload
               action=""

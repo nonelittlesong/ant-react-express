@@ -16,10 +16,14 @@ server.listen(port, (err) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // routers
 app.use('/demo', require('./routers/demo'));
+
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+});
 
 // -------------------- SocketIO ---------------------
 io.on('connection', (socket) => {

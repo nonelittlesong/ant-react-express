@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import UploadForm from './uploadimagedemo/UploadForm';
-import UserForm from './userdemo/UserForm';
 
 const { Header, Sider, Content } = Layout;
 
@@ -62,9 +61,9 @@ export default class App extends Component {
               }}
             >
               <Switch>
-                <Route exact path="/" component={UploadForm} />
+                <Route exact path="/">Home</Route>
                 <Route path="/Form" component={UploadForm} />
-                <Route path="/User" component={UserForm} />
+                <Route path="/User">User</Route>
               </Switch>
             </Content>
           </Layout>

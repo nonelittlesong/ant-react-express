@@ -17,3 +17,33 @@
 ### CleanWebpackPlugin is not a Constructor
 
 新版的引用方式已改成 `const { CleanWebpackPlugin } = require('clean-webpack-plugin')`。  
+
+### Form 中 使用 Upload
+
+需要配置 `getValueFromEvent`:  
+
+```js
+<Form.Item>
+  {getFieldDecorator('upload', {
+    valuePropName: 'fileList',
+    getValueFromEvent: (e) => {
+      console.log('Upload event: ', e);
+      if (Array.isArray(e)) {
+        return e;
+      }
+      return e && e.fileList;
+    }
+  })(
+    <Upload
+      action=""
+      beforeUpload={
+        () => false
+      }
+    >
+      <Button>
+        Select Images
+      </Button>
+    </Upload>
+  )}
+</Form.Item>
+```
